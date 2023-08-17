@@ -14,10 +14,12 @@ public class CashMachine{
         name = "DeCash M1982";
         company = "CashIndustries";
         cash = 100000;
+        DataBase.getInstance();
     }
     public CashMachine(String name, String company) {
             this.name = name;
             this.company = company;
+            DataBase.getInstance();
     }
     private void inputCard(CashMachine cashMachine, Scanner scan, Card card) {
         card.setCashMachine(cashMachine);
