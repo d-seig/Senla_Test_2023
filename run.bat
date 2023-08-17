@@ -1,0 +1,1 @@
+java -jar Senla_Test_2023-1.0.jar
