@@ -9,7 +9,7 @@ public class Card implements CashInterface {
     private final BankAccount bankAccount;
     private final String number;
     private final long dayInMillis = 8640000;
-    private final int PIN;
+    private final String PIN;
     private final int maxTakingCash = 1000000;
     private final byte PIN_tries = 3;
     private CashMachine cashMachine = new CashMachine();
@@ -21,37 +21,37 @@ public class Card implements CashInterface {
         bankAccount = new BankAccount(accountParams.get(0), Integer.parseInt(accountParams.get(2)));
         this.number = accountParams.get(0);
 
-        PIN = Integer.parseInt(accountParams.get(1));
+        PIN = accountParams.get(1);
 
         String lastblockDate = accountParams.get(3);
         long lastBlockDate = Long.parseLong(lastblockDate);
-        if(!lastblockDate.equals("null") && (new Date().getTime()) < lastBlockDate + dayInMillis)
+        if(!lastblockDate.equals("0") && (new Date().getTime()) < lastBlockDate + dayInMillis)
             isBlocked = true;
         else {
             isBlocked = false;
-            DataBase.getInstance().writeLastBlockDate(number, null, true);
+            DataBase.getInstance().writeLastBlockDate(number, "0", true);
         }
     }
     private void blockIsAll() {
         List<String> accountParams = DataBase.getInstance().findCard(number);
         String lastblockDate = accountParams.get(3);
         long lastBlockDate = Long.parseLong(lastblockDate);
-        if(!lastblockDate.equals("null") && (new Date().getTime()) < lastBlockDate + dayInMillis)
+        if(!lastblockDate.equals("0") && (new Date().getTime()) < lastBlockDate + dayInMillis)
             isBlocked = true;
         else {
             isBlocked = false;
-            DataBase.getInstance().writeLastBlockDate(number, null, true);
+            DataBase.getInstance().writeLastBlockDate(number, "0", true);
         }
     }
     public void singIn(Scanner scanner) {
-        int PIN;
+        String PIN;
 
         byte i = 1;
         for(; i<= PIN_tries; i++) {
             System.out.println("Введите пин-код: ");
-            PIN = Integer.parseInt(scanner.nextLine());
+            PIN = scanner.nextLine();
 
-            if(this.PIN == PIN) {
+            if(this.PIN.equals(PIN)) {
                 isVerified = true;
                 actions(scanner);
                 break;

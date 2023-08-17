@@ -113,10 +113,10 @@ public class DataBase {
         }
     }
     private void addExampleCards() {
-        writeStringCards("9890-8473-3872-3745 7584 38922 null", true);
-        writeStringCards("2340-7432-9743-5372 0973 23000 null", true);
-        writeStringCards("4923-1234-7328-8373 8743 7 null", true);
-        writeStringCards("2839-3982-8352-3499 3743 100000 null", true);
+        writeStringCards("9890-8473-3872-3745 7584 38922 0", true);
+        writeStringCards("2340-7432-9743-5372 0973 23000 0", true);
+        writeStringCards("4923-1234-7328-8373 8743 7 0", true);
+        writeStringCards("2839-3982-8352-3499 3743 100000 0", true);
     }
     protected void writeNewCardBalance(String cardNumber, int balance) {
         for (int i = 0; i< cardCache.size(); ++i) {
@@ -164,23 +164,24 @@ public class DataBase {
         ArrayList<String> out = new ArrayList<>();
         for (String s : cardCache) {
             String[] arr = s.split(" ");
-            if (number.equals(arr[0]) && isValid(arr)) {
+            if (number.equals(arr[0])) {
                 out.add(arr[0]);
                 out.add(arr[1]);
                 out.add(arr[2]);
                 out.add(arr[3]);
                 break;
-            } else {
+            }
+            /*if (!isValid(arr)) {
                 System.err.println("Данные о карте повреждены!");
                 break;
-            }
+            }*/
         }
         return out;
     }
     private boolean isValid(String[] arr) {
         if (arr.length > 0 && arr.length < 5) {
             if(new BankAccount().verifyNumber(arr[0]) &&
-                    arr[1].length() == 4 && getInstance().IsParsedFromStringToInt(arr[1]) &&
+                    arr[1].length() == 4 && /*getInstance().IsParsedFromStringToInt(arr[1]) &&*/
                     getInstance().IsParsedFromStringToInt(arr[2]) &&
                     (arr[3] == null || getInstance().isParsedFromStringToLong(arr[3]))) {
                 return true;

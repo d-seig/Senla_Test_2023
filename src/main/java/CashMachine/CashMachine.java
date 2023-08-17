@@ -47,6 +47,10 @@ public class CashMachine{
                     "\n [0] Завершение работы");
             try {
                 STATE = Byte.parseByte(scanner.nextLine());
+            } catch (Exception e) {
+                System.err.println("Неверный формат ввода! Вводите только цифры!\n" +
+                        "Ошибка: " + e);
+            }
                 switch(STATE) {
                     case 0:
                         break;
@@ -54,16 +58,16 @@ public class CashMachine{
                         System.out.println("Вставьте карту: ");
                         isCardIn = true;
                         String inputNumber = scanner.nextLine();
-                        if(new BankAccount().verifyNumber(inputNumber)
+                        if (new BankAccount().verifyNumber(inputNumber)
                                 && DataBase.getInstance().findCard(inputNumber).size() > 0)
-                            inputCard(this , scanner, new Card(inputNumber));
+                            inputCard(this, scanner, new Card(inputNumber));
                         else System.out.println("Карта не зарегистрирована!");
                         System.out.println("Заберите карту...");
                         isCardIn = false;
                         break;
                     case 2:
                         System.out.println("Введите ключ: ");
-                        if(scanner.nextLine().equals(KEY)) {
+                        if (scanner.nextLine().equals(KEY)) {
                             System.out.println("Какое количество денег желаете забрать?");
                             incashingOut(Integer.parseInt(scanner.nextLine()));
                         } else {
@@ -72,7 +76,7 @@ public class CashMachine{
                         break;
                     case 3:
                         System.out.println("Введите ключ: ");
-                        if(scanner.nextLine().equals(KEY)) {
+                        if (scanner.nextLine().equals(KEY)) {
                             System.out.println("Какое количество денег желаете положить?");
                             incashingIn(Integer.parseInt(scanner.nextLine()));
                         } else {
@@ -81,7 +85,7 @@ public class CashMachine{
                         break;
                     case 4:
                         System.out.println("Введите ключ: ");
-                        if(scanner.nextLine().equals(KEY)) {
+                        if (scanner.nextLine().equals(KEY)) {
                             System.out.println("Банкомат: " + company + " " + name);
                             DataBase dataBase = DataBase.getInstance();
                             System.err.println("Логи: ");
@@ -96,10 +100,6 @@ public class CashMachine{
                     default:
                         break;
                 }
-            } catch (Exception e) {
-                System.err.println("Неверный формат ввода! Вводите только цифры!\n" +
-                        "Ошибка: " + e);
-            }
         }
     }
     private void incashingIn(int cash) {
